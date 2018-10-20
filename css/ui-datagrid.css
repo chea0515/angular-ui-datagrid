@@ -15,6 +15,10 @@
     margin: 0;
     list-style-type: none;
 }
+.ui-datagrid table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
 .ui-datagrid input, .ui-datagrid select, .ui-datagrid textarea {
     outline: none;
     background-color: #fff;
@@ -157,11 +161,13 @@
 
 .ui-datagrid .dg-table {
     width: 100%;
-    border: 1px solid #e2e2e2;
     line-height: 35px;
 }
 .ui-datagrid .dg-table-hover tbody tr:hover {
     background-color: #eee;
+}
+.ui-datagrid .dg-table-hover tbody tr td {
+    border-top:1px solid #ddd;
 }
 .ui-datagrid .dg-table .dgt-header {
 }
