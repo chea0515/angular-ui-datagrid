@@ -1,0 +1,202 @@
+/*
+ * data grid style.
+ */
+.ui-datagrid {
+    display: block;
+    width: 100%;
+}
+
+.ui-datagrid a {
+    text-decoration: none;
+    color: #333;
+}
+.ui-datagrid ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+.ui-datagrid input, .ui-datagrid select, .ui-datagrid textarea {
+    outline: none;
+    background-color: #fff;
+}
+.ui-datagrid input, .ui-datagrid select {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+.ui-datagrid input {
+    min-height: 32px;
+}
+.ui-datagrid select {
+    min-height: 34px;
+}
+
+.ui-datagrid .dg-row {
+}
+
+.ui-datagrid .dg-btn {
+    display: inline-block;
+    padding: 6px;
+    vertical-align: middle;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.ui-datagrid .dg-btn-success {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+.ui-datagrid .dg-btn-success:hover {
+    background-color: #398439;
+    border-color: #255625;
+}
+.ui-datagrid .dg-btn-primary {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+.ui-datagrid .dg-btn-primary:hover {
+    background-color: #286090;
+    border-color: #204d74;
+}
+.ui-datagrid .dg-btn-warning {
+    color: #fff;
+    background-color: #f0ad4e;
+    border-color: #eea236;
+}
+.ui-datagrid .dg-btn-warning:hover {
+    background-color: #d58512;
+    border-color: #985f0d;
+}
+.ui-datagrid .dg-btn-info {
+    color: #fff;
+    background-color: #5bc0de;
+    border-color: #46b8da;
+}
+.ui-datagrid .dg-btn-info:hover {
+    background-color: #31b0d5;
+    border-color: #269abc;
+}
+.ui-datagrid .dg-btn-danger {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+.ui-datagrid .dg-btn-danger:hover {
+    background-color: #c9302c;
+    border-color: #ac2925;
+}
+
+.ui-datagrid .dg-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: url('../image/icon-min.png') no-repeat;
+    vertical-align: middle;
+}
+.ui-datagrid .dg-icon-refresh {
+    background-position:-177px -26px;
+}
+.ui-datagrid .dg-icon-refresh-min {
+    background-position:-154px -26px;
+}
+.ui-datagrid .dg-icon-plus {
+    background-position:0 0;
+}
+.ui-datagrid .dg-icon-remove {
+    background-position:-18px 0;
+}
+.ui-datagrid .dg-icon-edit {
+    background-position:-126px -46px;
+}
+
+.ui-datagrid .dg-txt {
+}
+.ui-datagrid .dg-txt-left {
+    text-align: left;
+}
+.ui-datagrid .dg-txt-right {
+    text-align: right;
+}
+.ui-datagrid .dg-txt-center {
+    text-align: center;
+}
+
+.ui-datagrid .dg-select {
+}
+
+.ui-datagrid .dg-input {
+}
+
+.ui-datagrid .dg-col-8 {
+    float: left;
+    width: 66.66666667%;
+}
+.ui-datagrid .dg-col-4 {
+    float: left;
+    width: 33.33333333%;
+}
+
+.ui-datagrid .dg-input-group {
+}
+
+.ui-datagrid .dg-toolbar {
+    min-height: 40px;
+}
+.ui-datagrid .dg-toolbar .bar-item {
+    margin:0 4px;
+}
+.ui-datagrid .dg-toolbar .dgig-search-input {
+    width: 180px;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+}
+.ui-datagrid .dg-toolbar .dgig-search-btn {
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+}
+
+.ui-datagrid .dg-table {
+    width: 100%;
+    border: 1px solid #e2e2e2;
+    line-height: 35px;
+}
+.ui-datagrid .dg-table-hover tbody tr:hover {
+    background-color: #eee;
+}
+.ui-datagrid .dg-table .dgt-header {
+}
+.ui-datagrid .dg-table .dgt-header tr {
+    background-color: #90dbec;
+}
+
+.ui-datagrid .dg-pagehelper {
+    display: block;
+    width: 100%;
+}
+.ui-datagrid .dg-pagehelper .dgph-items {
+    padding: 20px 0;
+}
+.ui-datagrid .dg-pagehelper .dgph-tip {
+    margin: 0 10px;
+    vertical-align: middle;
+}
+.ui-datagrid .dg-pagehelper .dgph-item-input {
+    width: 40px;
+    margin: 0 2px;
+}
+.ui-datagrid .dg-pagehelper .dgph-pagination {
+    display: inline-block;
+    vertical-align: middle;
+}
+.ui-datagrid .dg-pagehelper .dgph-pagination li {
+    float: left;
+}
+.ui-datagrid .dg-pagehelper .dgph-pagination li a {
+    margin: 0 2px;
+    padding: 6px 12px;
+}
+.ui-datagrid .dg-pagehelper .dgph-pagination .dgphp-on {
+    background-color: #ddd;
+    color: #333;
+}
+
