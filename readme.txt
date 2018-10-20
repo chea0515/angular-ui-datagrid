@@ -12,27 +12,27 @@ $scope.dataGridOptions = {
     url: 'http://',
     method: 'POST',
     toolbar: [{
-        title: '增加',
-        icon: 'glyphicon glyphicon-plus',
-        styler: 'btn-primary',
-        click: function(o) {
-            console.log(o)
-        }
-    }, {
-        title: '删除',
-        icon: 'glyphicon-remove',
-        styler: 'btn-success',
-        click: function(o) {
-            console.log(o)
-        }
-    }, {
-        title: '修改',
-        icon: 'glyphicon glyphicon-edit',
-        styler: 'btn-info',
-        click: function(o) {
-            console.log(o)
-        }
-    }],
+		title: '增加',
+		icon: 'dg-icon-plus',
+		styler: 'dg-btn-primary',
+		click: function(o) {
+			console.log(o)
+		}
+	}, {
+		title: '删除',
+		icon: 'dg-icon-remove',
+		styler: 'dg-btn-success',
+		click: function(o) {
+			console.log(o)
+		}
+	}, {
+		title: '修改',
+		icon: 'dg-icon-edit',
+		styler: 'dg-btn-info',
+		click: function(o) {
+			console.log(o)
+		}
+	}],
     header: [{
         field: 'title',
         title: '标题'
