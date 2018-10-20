@@ -199,16 +199,16 @@ function dataGridDirective($http, gridUtil) {
                                     if (respData.page.totalCount && $scope.gridCfg.hPage.totalCount !== respData.page.totalCount) {
                                         $scope.gridCfg.hPage.totalCount = respData.page.totalCount;
                                     }
-                                    if ($scope.gridCfg.hPage.totalPage === 0) {
-                                        if (respData.page.totalPage && $scope.gridCfg.hPage.totalPage !== respData.page.totalPage) {
-                                            $scope.gridCfg.hPage.totalPage = respData.page.totalPage;
-                                        } else if (respData.page.totalCount && respData.page.pageSize) {
-                                            $scope.gridCfg.hPage.totalPage =
-                                                Math.ceil(respData.page.totalCount / respData.page.pageSize);
-                                        } else {
-                                            $scope.gridCfg.hPage.totalPage =
-                                                Math.ceil($scope.gridCfg.hPage.totalCount / $scope.gridCfg.hPage.pageSize);
+                                    if (respData.page.totalPage && $scope.gridCfg.hPage.totalPage !== respData.page.totalPage) {
+                                        $scope.gridCfg.hPage.totalPage = respData.page.totalPage;
+                                    } else if (respData.page.totalCount && respData.page.pageSize) {
+                                        let _totalPage = Math.ceil(respData.page.totalCount / respData.page.pageSize);
+                                        if ($scope.gridCfg.hPage.totalPage !== _totalPage) {
+                                            $scope.gridCfg.hPage.totalPage = _totalPage;
                                         }
+                                    } else if ($scope.gridCfg.hPage.totalPage === 0) {
+                                        $scope.gridCfg.hPage.totalPage =
+                                            Math.ceil($scope.gridCfg.hPage.totalCount / $scope.gridCfg.hPage.pageSize);
                                     }
 
                                     if(gridUtil.isFunction(callback)) {
@@ -323,7 +323,7 @@ function $gridPageHelperDirective(gridUtil) {
     return {
         restrict: 'EA',
         template: '<div class="dg-pagehelper"><div class="dg-txt-right" ng-show="gridCfg.hPage.pageShow"><div class="dgph-items"><a href="javascript:;" ng-click="gridCfg.hPage.reload()"><i class="dg-icon dg-icon-refresh-min" title="reload grid"></i></a>&nbsp;&nbsp;'
-            +   '<select class="dg-btn" ng-model="gridCfg.hPage.pageSize" ng-options="i for i in gridCfg.hPage.pageSizeItems" ng-change="gridCfg.hPage.reload()"></select><span class="dgph-tip">共{{gridCfg.hPage.totalCount}}条</span>'
+            +   '<select class="dg-btn" ng-model="gridCfg.hPage.pageSize" ng-options="i for i in gridCfg.hPage.pageSizeItems" ng-change="gridCfg.hPage.resizePageSizeItems()"></select><span class="dgph-tip">共{{gridCfg.hPage.totalCount}}条</span>'
             +   '<input type="text" ng-model="gridCfg.hPage.toPageNum" ng-blur="gridCfg.hPage.toPage(\'to\')" class="dg-btn dgph-item-input dg-txt-center" maxlength="11"/><ul class="dgph-pagination">'
             +   '<li><a href="javascript:;" ng-click="gridCfg.hPage.toPage(\'previous\')" class="dg-btn"><span>&laquo;</span></a></li>'
             +   '<li ng-repeat="num in gridCfg.hPage.pageNumList"><a href="javascript:;" ng-click="gridCfg.hPage.toPage(\'num\', num)" class="dg-btn" ng-class="{true:\'dgphp-on disabled\', false:\'\'}[num===gridCfg.hPage.pageNum]">{{num}}</a></li>'
@@ -334,10 +334,11 @@ function $gridPageHelperDirective(gridUtil) {
              * calc page num list
              * type 0: init, 1: onload
              */
-            const calcPageNumList = function(type) {
-                const totalPage = scope.gridCfg.hPage.totalPage;
+            let calcPageNumList = function(type) {
+                let totalPage = scope.gridCfg.hPage.totalPage;
                 // init
                 if (type === 0) {
+                    scope.gridCfg.hPage.init();
                     if (totalPage > 0) {
                         let i = 0;
                         if (totalPage <= 5) {
@@ -377,12 +378,13 @@ function $gridPageHelperDirective(gridUtil) {
                     }
                 }
             };
-
+            scope.gridCfg.hPage.resizePageSizeItems = function() {
+                scope.gridCfg.hPage.reload(function() {
+                    calcPageNumList(0);
+                });
+            };
             // init page num list
-            scope.gridCfg.hPage.reload(function() {
-                calcPageNumList(0);
-            });
-
+            scope.gridCfg.hPage.resizePageSizeItems();
             // num/toNum/previous/next
             scope.gridCfg.hPage.toPage = function(type, num) {
                 switch(type) {
@@ -427,12 +429,10 @@ function $gridPageHelperDirective(gridUtil) {
                     default:
                         break;
                 }
-
                 calcPageNumList(1);
             };
         }
     };
 }
 angular.module('ui.datagrid.pagehelper').directive('gridPagehelper', $gridPageHelperDirective);
-
 })(window, window.angular);
