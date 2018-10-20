@@ -2,7 +2,7 @@
  * @description  angular data grid component.
  * based on the ES6
  * @author       chenChao
- * @version      v1.0
+ * @version      v1.1
  */
 (function (window, angular) {
 /* init datagrid module */

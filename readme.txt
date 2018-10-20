@@ -1,4 +1,8 @@
 ---  angular表格插件使用文档  ---
+版本：v 1.1
+说明：
+图标样式调整。
+
 版本：v 1.0
 说明：
 一、angular注入依赖：
@@ -12,27 +16,27 @@ $scope.dataGridOptions = {
     url: 'http://',
     method: 'POST',
     toolbar: [{
-		title: '增加',
-		icon: 'dg-icon-plus',
-		styler: 'dg-btn-primary',
-		click: function(o) {
-			console.log(o)
-		}
-	}, {
-		title: '删除',
-		icon: 'dg-icon-remove',
-		styler: 'dg-btn-success',
-		click: function(o) {
-			console.log(o)
-		}
-	}, {
-		title: '修改',
-		icon: 'dg-icon-edit',
-		styler: 'dg-btn-info',
-		click: function(o) {
-			console.log(o)
-		}
-	}],
+          title: '增加',
+          icon: 'dg-icon-plus',
+          styler: 'dg-btn-primary',
+          click: function(o) {
+              console.log(o)
+          }
+      }, {
+          title: '删除',
+          icon: 'dg-icon-remove',
+          styler: 'dg-btn-success',
+          click: function(o) {
+              console.log(o)
+          }
+      }, {
+          title: '修改',
+          icon: 'dg-icon-edit',
+          styler: 'dg-btn-info',
+          click: function(o) {
+              console.log(o)
+          }
+    }],
     header: [{
         field: 'title',
         title: '标题'

@@ -90,23 +90,23 @@
     display: inline-block;
     width: 20px;
     height: 20px;
-    background: url('../image/icon-min.png') no-repeat;
+    background: url('../image/icon-min-all.png') no-repeat;
     vertical-align: middle;
 }
 .ui-datagrid .dg-icon-refresh {
-    background-position:-177px -26px;
+    background-position:-177px -140px;
 }
 .ui-datagrid .dg-icon-refresh-min {
     background-position:-154px -26px;
 }
 .ui-datagrid .dg-icon-plus {
-    background-position:0 0;
+    background-position:0 -112px;
 }
 .ui-datagrid .dg-icon-remove {
-    background-position:-18px 0;
+    background-position:-18px -112px;
 }
 .ui-datagrid .dg-icon-edit {
-    background-position:-126px -46px;
+    background-position:-126px -160px;
 }
 
 .ui-datagrid .dg-txt {
