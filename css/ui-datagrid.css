@@ -1,9 +1,17 @@
 /*
  * data grid style.
  */
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
 .ui-datagrid {
     display: block;
     width: 100%;
+    font-size: 14px;
+    color: #333;
 }
 
 .ui-datagrid a {
@@ -21,17 +29,12 @@
 }
 .ui-datagrid input, .ui-datagrid select, .ui-datagrid textarea {
     outline: none;
-    background-color: #fff;
 }
 .ui-datagrid input, .ui-datagrid select {
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
 }
 .ui-datagrid input {
-    min-height: 32px;
 }
 .ui-datagrid select {
-    min-height: 34px;
 }
 
 .ui-datagrid .dg-row {
@@ -39,10 +42,14 @@
 
 .ui-datagrid .dg-btn {
     display: inline-block;
-    padding: 6px;
     vertical-align: middle;
     border: 1px solid #ccc;
     border-radius: 4px;
+    height: 31px;
+    line-height: 31px;
+    padding: 0 6px;
+    overflow: hidden;
+    background: #fff none;
 }
 .ui-datagrid .dg-btn-success {
     color: #fff;
@@ -198,8 +205,7 @@
     float: left;
 }
 .ui-datagrid .dg-pagehelper .dgph-pagination li a {
-    margin: 0 2px;
-    padding: 6px 12px;
+    margin-left: 6px;
 }
 .ui-datagrid .dg-pagehelper .dgph-pagination .dgphp-on {
     background-color: #ddd;
