@@ -179,8 +179,8 @@ function dataGridDirective($http, gridUtil) {
                     this.pageResult= [];
                     this.toPageNum= 1;
                 },
-                reload: function(callback) {
-                    this.resizePageInfo();
+                reload: function(callback, resizePageNum) {
+                    this.resizePageInfo(resizePageNum);
                     gridUtil.http({
                         url   : $scope.gridCfg.url,
                         method: $scope.gridCfg.method,
@@ -224,9 +224,12 @@ function dataGridDirective($http, gridUtil) {
                         }
                     });
                 },
-                resizePageInfo: function() {
+                load: function(callback) {
+                    this.reload(callback, true);
+                },
+                resizePageInfo: function(resizePageNum) {
                     $scope.gridCfg.hTable.clear();
-                    $scope.gridCfg.queryParams.pageNum = $scope.gridCfg.hPage.pageNum;
+                    $scope.gridCfg.queryParams.pageNum = resizePageNum ? 1 : $scope.gridCfg.hPage.pageNum;
                     $scope.gridCfg.queryParams.pageSize = $scope.gridCfg.hPage.pageSize;
                     if ($scope.gridCfg.hToolbar.searchSelItem.field) {
                         $scope.gridCfg.hToolbar.searchItems.forEach(item => {
@@ -245,6 +248,7 @@ function dataGridDirective($http, gridUtil) {
            // open properties
             $scope.gridCfg.openProperties = {
                 selectList: [],
+                load  : $scope.gridCfg.hPage.load,
                 reload  : $scope.gridCfg.hPage.reload,
                 init    : $scope.gridCfg.init,
                 clear   : null,
@@ -379,7 +383,7 @@ function $gridPageHelperDirective(gridUtil) {
                 }
             };
             scope.gridCfg.hPage.resizePageSizeItems = function() {
-                scope.gridCfg.hPage.reload(function() {
+                scope.gridCfg.hPage.load(function() {
                     calcPageNumList(0);
                 });
             };
