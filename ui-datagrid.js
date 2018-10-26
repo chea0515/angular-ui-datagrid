@@ -84,7 +84,7 @@ function dataGridDirective($http, gridUtil) {
         transclude: true,
         replace: true,
 		restrict: 'E',
-        template: '<div class="ui-datagrid"><div ng-if="gridCfg.header.length>0"><div grid-toolbar/><div grid-table/><div grid-pagehelper/></div></div>',
+        template: '<div class="ui-datagrid"><div ng-show="gridCfg.hLoad.showMsg" class="dg-load"><div class="dgl-load-msg">{{gridCfg.hLoad.msg}}</div><div class="dgl-load-msg-back"></div></div><div ng-if="gridCfg.header.length>0"><div grid-toolbar/><div grid-table/><div grid-pagehelper/></div></div>',
 		link: function($scope, $element, $attr, $ctrl) {
 		    // init grid config
             if (!$scope.gridOptions) $scope.gridOptions = {};
@@ -124,6 +124,15 @@ function dataGridDirective($http, gridUtil) {
                 }
             };
 
+            // load msg
+            $scope.gridCfg.hLoad = {
+                msg: '加载中 ...',
+                showMsg: false,
+                switchMsg: function(st) {
+                    this.showMsg = st;
+                }
+            };
+
             // toolbar
             $scope.gridCfg.hToolbar = {
                 barShow: $scope.gridCfg.toolbar.length > 0,
@@ -143,6 +152,7 @@ function dataGridDirective($http, gridUtil) {
                 datas: {},
                 showLineNum: $scope.gridOptions.showLineNum || false,
                 styler: { backgroundColor: '#BBEEFF' },
+                emptyTip: '暂无数据',
                 dataList: function() {
                     let _list = [];
                     for(let _key in this.datas) {
@@ -185,32 +195,29 @@ function dataGridDirective($http, gridUtil) {
                     this.toPageNum= 1;
                 },
                 reload: function(callback, resizePageNum) {
+                    $scope.gridCfg.hLoad.switchMsg(true);
                     this.resizePageInfo(resizePageNum);
                     gridUtil.http({
                         url   : $scope.gridCfg.url,
                         method: $scope.gridCfg.method,
                         data  : JSON.stringify($scope.gridCfg.queryParams),
                         success: function(response) {
+                            $scope.gridCfg.hLoad.switchMsg(false);
                             let respData = response.data;
                             if (respData.success && respData.page) {
                                 gridUtil.timeout(function() {
                                     if (respData.page.result) $scope.gridCfg.hPage.pageResult = respData.page.result;
-                                    if ($scope.gridCfg.hPage.pageNum !== respData.page.pageNum) {
-                                        $scope.gridCfg.hPage.pageNum = respData.page.pageNum;
+                                    if (!isNaN(respData.page.pageNum)) {
+                                        $scope.gridCfg.hPage.pageNum = parseInt(respData.page.pageNum);
                                     }
-                                    if ($scope.gridCfg.hPage.pageSize !== respData.page.pageSize) {
-                                        $scope.gridCfg.hPage.pageSize = respData.page.pageSize;
+                                    if (!isNaN(respData.page.pageSize)) {
+                                        $scope.gridCfg.hPage.pageSize = parseInt(respData.page.pageSize);
                                     }
-                                    if ($scope.gridCfg.hPage.totalCount !== respData.page.totalCount) {
-                                        $scope.gridCfg.hPage.totalCount = respData.page.totalCount;
+                                    if (!isNaN(respData.page.totalCount)) {
+                                        $scope.gridCfg.hPage.totalCount = parseInt(respData.page.totalCount);
                                     }
-                                    if ($scope.gridCfg.hPage.totalPage !== respData.page.totalPage) {
+                                    if (!isNaN(respData.page.totalPage)) {
                                         $scope.gridCfg.hPage.totalPage = respData.page.totalPage;
-                                    } else if (!isNaN(respData.page.pageSize)) {
-                                        let _totalPage = Math.ceil(respData.page.totalCount / respData.page.pageSize);
-                                        if ($scope.gridCfg.hPage.totalPage !== _totalPage) {
-                                            $scope.gridCfg.hPage.totalPage = _totalPage;
-                                        }
                                     } else if ($scope.gridCfg.hPage.totalPage === 0) {
                                         $scope.gridCfg.hPage.totalPage =
                                             Math.ceil($scope.gridCfg.hPage.totalCount / $scope.gridCfg.hPage.pageSize);
@@ -223,6 +230,7 @@ function dataGridDirective($http, gridUtil) {
                             }
                         },
                         error: function(response) {
+                            $scope.gridCfg.hLoad.switchMsg(false);
                             if(gridUtil.isFunction(callback)) {
                                 callback(response);
                             }
@@ -298,7 +306,7 @@ function $gridTableDirective(gridUtil) {
     return {
         restrict: 'EA',
         template: '<div><table class="dg-table dg-table-hover" border="0" cellspacing="0" cellpadding="0"><thead class="dgt-header"><tr><th ng-if="gridCfg.hTable.showLineNum">#</th><th ng-repeat="h in gridCfg.header" class="dg-txt-center">{{h.title}}</th>' +
-            '</tr></thead><tbody><tr ng-if="gridCfg.hPage.pageResult.length===0" class="dg-txt-center"><td colspan="{{gridCfg.header.length+(gridCfg.hTable.showLineNum?1:0)}}">empty data</td>\n'+
+            '</tr></thead><tbody><tr ng-if="gridCfg.hPage.pageResult.length===0" class="dg-txt-center"><td colspan="{{gridCfg.header.length+(gridCfg.hTable.showLineNum?1:0)}}">{{gridCfg.hTable.emptyTip}}</td>'+
             '</tr><tr ng-if="gridCfg.hPage.pageResult.length>0" ng-repeat="rls in gridCfg.hPage.pageResult" class="dg-txt-center" ng-click="gridCfg.hTable.trClick($index, rls)" ng-style="gridCfg.hTable.datas[\'click\'+$index].styler">' +
             '<td ng-if="gridCfg.hTable.showLineNum">{{$index+1}}</td><td ng-repeat="h in gridCfg.header">{{rls[h.field]}}</td></tr></tbody></table></div>',
         link: function($scope, $ele, $attr) {
