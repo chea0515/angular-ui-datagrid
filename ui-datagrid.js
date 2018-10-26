@@ -24,8 +24,13 @@ function $datagridUtil($q, $injector, $http, $location, $templateCache, $timeout
     this.copy        = angular.copy;
     this.toJson      = angular.toJson;
     this.isNumber    = angular.isNumber;
-    this.isNum    = function(v) {
-        return v && !isNaN(v);
+    this.isNum       = function(v) {
+    	if (v === undefined) {
+    		return false;
+    	} else if (v === 0) {
+    		return true;
+    	}
+        return !isNaN(v);
     };
     // current path
 	this.currentPath = '/';
@@ -190,18 +195,18 @@ function dataGridDirective($http, gridUtil) {
                             if (respData.success && respData.page) {
                                 gridUtil.timeout(function() {
                                     if (respData.page.result) $scope.gridCfg.hPage.pageResult = respData.page.result;
-                                    if (respData.page.pageNum && $scope.gridCfg.hPage.pageNum !== respData.page.pageNum) {
+                                    if ($scope.gridCfg.hPage.pageNum !== respData.page.pageNum) {
                                         $scope.gridCfg.hPage.pageNum = respData.page.pageNum;
                                     }
-                                    if (respData.page.pageSize && $scope.gridCfg.hPage.pageSize !== respData.page.pageSize) {
+                                    if ($scope.gridCfg.hPage.pageSize !== respData.page.pageSize) {
                                         $scope.gridCfg.hPage.pageSize = respData.page.pageSize;
                                     }
-                                    if (respData.page.totalCount && $scope.gridCfg.hPage.totalCount !== respData.page.totalCount) {
+                                    if ($scope.gridCfg.hPage.totalCount !== respData.page.totalCount) {
                                         $scope.gridCfg.hPage.totalCount = respData.page.totalCount;
                                     }
-                                    if (respData.page.totalPage && $scope.gridCfg.hPage.totalPage !== respData.page.totalPage) {
+                                    if ($scope.gridCfg.hPage.totalPage !== respData.page.totalPage) {
                                         $scope.gridCfg.hPage.totalPage = respData.page.totalPage;
-                                    } else if (respData.page.totalCount && respData.page.pageSize) {
+                                    } else if (!isNaN(respData.page.pageSize)) {
                                         let _totalPage = Math.ceil(respData.page.totalCount / respData.page.pageSize);
                                         if ($scope.gridCfg.hPage.totalPage !== _totalPage) {
                                             $scope.gridCfg.hPage.totalPage = _totalPage;
@@ -270,7 +275,7 @@ function $gridToolbarDirective(gridUtil) {
         template: '<div ng-if="gridCfg.hToolbar.barShow" class="dg-toolbar"><div class="dg-col-8"><a ng-repeat="t in gridCfg.toolbar" href="javascript:;" ng-click="gridCfg.hToolbar.barClick(t.click)" class="dg-btn bar-item" ng-class="{true:t.styler, false:\'dg-btn-success\'}[t.styler!==null]">' +
             '<i ng-if="t.icon" class="dg-icon" ng-class="t.icon"></i>&nbsp;{{t.title}}</a></div><div class="dg-col-4 dg-txt-right"><div class="dg-row"><div ng-if="gridCfg.hToolbar.searchShow&&gridCfg.hToolbar.searchItems.length>0" class="dg-input-group">' +
             '<select ng-model="gridCfg.hToolbar.searchSelItem" ng-options="item.title for item in gridCfg.hToolbar.searchItems" class="dg-btn"></select>&nbsp;<input type="text" ng-model="gridCfg.hToolbar.searchModel" class="dg-btn dgig-search-input" placeholder="search..." maxlength="50"/>' +
-            '<a href="javascript:;" class="dg-btn dg-btn-primary dgig-search-btn" ng-click="gridCfg.hPage.reload()">GO</a>&nbsp;<a href="javascript:;" ng-click="gridCfg.hPage.reload()" class="dg-btn dg-btn-warning"><i class="dg-icon dg-icon-refresh"></i></a></div></div></div></div>',
+            '<a href="javascript:;" class="dg-btn dg-btn-primary dgig-search-btn" ng-click="gridCfg.hPage.resizePageSizeItems()">GO</a>&nbsp;<a href="javascript:;" ng-click="gridCfg.hPage.reload()" class="dg-btn dg-btn-warning"><i class="dg-icon dg-icon-refresh"></i></a></div></div></div></div>',
 
         link: function($scope, $ele, $attr) {
             // extends hToolbar
@@ -393,7 +398,7 @@ function $gridPageHelperDirective(gridUtil) {
             scope.gridCfg.hPage.toPage = function(type, num) {
                 switch(type) {
                     case 'to':
-                        scope.gridCfg.hPage.toPageNum = gridUtil.isNum(scope.gridCfg.hPage.toPageNum)
+                        scope.gridCfg.hPage.toPageNum = !isNaN(scope.gridCfg.hPage.toPageNum)
                             ? parseInt(scope.gridCfg.hPage.toPageNum) : 1;
                         if (scope.gridCfg.hPage.pageNum !== scope.gridCfg.hPage.toPageNum) {
                             // resize
